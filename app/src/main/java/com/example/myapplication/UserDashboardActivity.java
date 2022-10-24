@@ -8,22 +8,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.os.Bundle;
 
-
-public class DashboardActivity extends AppCompatActivity {
+public class UserDashboardActivity extends AppCompatActivity {
     String EmailHolder;
     TextView Email;
     Button LogOUT ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_user_dashboard);
         Email = (TextView)findViewById(R.id.textView1);
         LogOUT = (Button)findViewById(R.id.button1);
         Intent intent = getIntent();
         // Receiving User Email Send By MainActivity.
-        EmailHolder = intent.getStringExtra(LoginActivity.UserEmail);
+        EmailHolder = intent.getStringExtra(UserLoginActivity.UserEmail);
         // Setting up received email to TextView.
         Email.setText(Email.getText().toString()+ EmailHolder);
         // Adding click listener to Log Out button.
@@ -32,7 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Finishing current DashBoard activity on button click.
                 finish();
-                Toast.makeText(DashboardActivity.this,"Log Out Successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(UserDashboardActivity.this,"Log Out Successful", Toast.LENGTH_LONG).show();
             }
         });
     }

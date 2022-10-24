@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class OwnerLoginActivity extends AppCompatActivity {
 
     public static final String UserEmail = "";
     Button LogInButton;
@@ -24,22 +24,24 @@ public class LoginActivity extends AppCompatActivity {
     String EmailHolder, PasswordHolder;
     Boolean EditTextEmptyHolder;
     SQLiteDatabase sqLiteDatabaseObj;
-    SQLiteHelper sqLiteHelper;
+    UserDBHelper userDBHelper;
     Cursor cursor;
     String TempPassword = "NOT_FOUND";
-    TextView RegisterButton;
+    TextView RegisterButton,UserLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_owner_login);
         LogInButton = (Button) findViewById(R.id.login);
         Email = (EditText) findViewById(R.id.email);
         Password = (EditText) findViewById(R.id.password);
-        sqLiteHelper = new SQLiteHelper(this);
+        userDBHelper = new UserDBHelper(this);
         RegisterButton = (TextView) findViewById(R.id.register_here);
+        UserLogin = (TextView) findViewById(R.id.user_login);
+
 
         //Adding click listener to log in button.
         LogInButton.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +58,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Opening new user registration activity using intent on button click.
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(OwnerLoginActivity.this, OwnerRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        UserLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Opening new user registration activity using intent on button click.
+                Intent intent = new Intent(OwnerLoginActivity.this, UserLoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -67,14 +78,14 @@ public class LoginActivity extends AppCompatActivity {
     public void LoginFunction() {
         if (EditTextEmptyHolder) {
             // Opening SQLite database write permission.
-            sqLiteDatabaseObj = sqLiteHelper.getWritableDatabase();
+            sqLiteDatabaseObj = userDBHelper.getWritableDatabase();
             // Adding search email query to cursor.
-            cursor = sqLiteDatabaseObj.query(SQLiteHelper.TABLE_NAME, null, " " + SQLiteHelper.Table_Column_2_Email + "=?", new String[]{EmailHolder}, null, null, null);
+            cursor = sqLiteDatabaseObj.query(UserDBHelper.TABLE_NAME, null, " " + UserDBHelper.Table_Column_2_Email + "=?", new String[]{EmailHolder}, null, null, null);
             while (cursor.moveToNext()) {
                 if (cursor.isFirst()) {
                     cursor.moveToFirst();
                     // Storing Password associated with entered email.
-                    TempPassword = cursor.getString(cursor.getColumnIndex(SQLiteHelper.Table_Column_3_Password));
+                    TempPassword = cursor.getString(cursor.getColumnIndex(UserDBHelper.Table_Column_3_Password));
                     // Closing cursor.
                     cursor.close();
                 }
@@ -83,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             CheckFinalResult();
         } else {
             //If any of login EditText empty then this block will be executed.
-            Toast.makeText(LoginActivity.this, "Please Enter UserName or Password.", Toast.LENGTH_LONG).show();
+            Toast.makeText(OwnerLoginActivity.this, "Please Enter UserName or Password.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -103,14 +114,14 @@ public class LoginActivity extends AppCompatActivity {
     // Checking entered password from SQLite database email associated password.
     public void CheckFinalResult() {
         if (TempPassword.equalsIgnoreCase(PasswordHolder)) {
-            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+            Toast.makeText(OwnerLoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
             // Going to Dashboard activity after login success message.
-            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            Intent intent = new Intent(OwnerLoginActivity.this, UserDashboardActivity.class);
             // Sending Email to Dashboard Activity using intent.
             intent.putExtra(UserEmail, EmailHolder);
             startActivity(intent);
         } else {
-            Toast.makeText(LoginActivity.this, "UserName or Password is Wrong, Please Try Again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(OwnerLoginActivity.this, "UserName or Password is Wrong, Please Try Again.", Toast.LENGTH_LONG).show();
         }
         TempPassword = "NOT_FOUND";
     }

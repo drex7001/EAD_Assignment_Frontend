@@ -3,7 +3,6 @@ package com.example.myapplication;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,7 +18,7 @@ import android.widget.Toast;
 //https://www.campcodes.com/mobile-app/android-studio/login-and-registration-app-with-sqlite-database-in-android-studio/
 //https://www.youtube.com/watch?v=3865rSz9iOs&t=1s
 
-public class RegisterActivity extends AppCompatActivity {
+public class OwnerRegisterActivity extends AppCompatActivity {
 
     EditText Email, Password, Name;
     Button Register;
@@ -27,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     Boolean EditTextEmptyHolder;
     SQLiteDatabase sqLiteDatabaseObj;
     String SQLiteDataBaseQueryHolder;
-    SQLiteHelper sqLiteHelper;
+    UserDBHelper userDBHelper;
     Cursor cursor;
     String F_Result = "Not_Found";
     TextView LoginButton;
@@ -37,12 +36,12 @@ public class RegisterActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_owner_register);
         Register = (Button) findViewById(R.id.register);
         Email = (EditText) findViewById(R.id.email);
         Password = (EditText) findViewById(R.id.password);
         Name = (EditText) findViewById(R.id.name);
-        sqLiteHelper = new SQLiteHelper(this);
+        userDBHelper = new UserDBHelper(this);
         LoginButton = (TextView) findViewById(R.id.login_here);
 
         // Adding click listener to register button.
@@ -67,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_LONG).show();
                 // Opening new user registration activity using intent on button click.
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                Intent intent = new Intent(OwnerRegisterActivity.this, OwnerLoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -75,12 +74,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     // SQLite database build method.
     public void SQLiteDataBaseBuild() {
-        sqLiteDatabaseObj = openOrCreateDatabase(SQLiteHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
+        sqLiteDatabaseObj = openOrCreateDatabase(UserDBHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
     }
 
     // SQLite table build method.
     public void SQLiteTableBuild() {
-        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS " + SQLiteHelper.TABLE_NAME + "(" + SQLiteHelper.Table_Column_ID + " PRIMARY KEY AUTOINCREMENT NOT NULL, " + SQLiteHelper.Table_Column_1_Name + " VARCHAR, " + SQLiteHelper.Table_Column_2_Email + " VARCHAR, " + SQLiteHelper.Table_Column_3_Password + " VARCHAR);");
+        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS " + UserDBHelper.TABLE_NAME + "(" + UserDBHelper.Table_Column_ID + " PRIMARY KEY AUTOINCREMENT NOT NULL, " + UserDBHelper.Table_Column_1_Name + " VARCHAR, " + UserDBHelper.Table_Column_2_Email + " VARCHAR, " + UserDBHelper.Table_Column_3_Password + " VARCHAR, " + UserDBHelper.Table_Column_4_user_type + " VARCHAR );");
     }
 
     // Insert data into SQLite database method.
@@ -88,18 +87,19 @@ public class RegisterActivity extends AppCompatActivity {
         // If editText is not empty then this block will executed.
         if (EditTextEmptyHolder == true) {
             // SQLite query to insert data into table.
-            SQLiteDataBaseQueryHolder = "INSERT INTO " + SQLiteHelper.TABLE_NAME + " (name,email,password) VALUES('" + NameHolder + "', '" + EmailHolder + "', '" + PasswordHolder + "');";
+            String userType = "owner";
+            SQLiteDataBaseQueryHolder = "INSERT INTO " + UserDBHelper.TABLE_NAME + " (name,email,password,userType) VALUES('" + NameHolder + "', '" + EmailHolder + "', '" + PasswordHolder + "', '" + userType + "');";
             // Executing query.
             sqLiteDatabaseObj.execSQL(SQLiteDataBaseQueryHolder);
             // Closing SQLite database object.
             sqLiteDatabaseObj.close();
             // Printing toast message after done inserting.
-            Toast.makeText(RegisterActivity.this, "User Registered Successfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(OwnerRegisterActivity.this, "User Registered Successfully", Toast.LENGTH_LONG).show();
         }
         // This block will execute if any of the registration EditText is empty.
         else {
             // Printing toast message if any of EditText is empty.
-            Toast.makeText(RegisterActivity.this, "Please Fill All The Required Fields.", Toast.LENGTH_LONG).show();
+            Toast.makeText(OwnerRegisterActivity.this, "Please Fill All The Required Fields.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -126,9 +126,9 @@ public class RegisterActivity extends AppCompatActivity {
     // Checking Email is already exists or not.
     public void CheckingEmailAlreadyExistsOrNot() {
         // Opening SQLite database write permission.
-        sqLiteDatabaseObj = sqLiteHelper.getWritableDatabase();
+        sqLiteDatabaseObj = userDBHelper.getWritableDatabase();
         // Adding search email query to cursor.
-        cursor = sqLiteDatabaseObj.query(SQLiteHelper.TABLE_NAME, null, " " + SQLiteHelper.Table_Column_2_Email + "=?", new String[]{EmailHolder}, null, null, null);
+        cursor = sqLiteDatabaseObj.query(UserDBHelper.TABLE_NAME, null, " " + UserDBHelper.Table_Column_2_Email + "=?", new String[]{EmailHolder}, null, null, null);
         while (cursor.moveToNext()) {
             if (cursor.isFirst()) {
                 cursor.moveToFirst();
@@ -147,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Checking whether email is already exists or not.
         if (F_Result.equalsIgnoreCase("Email Found")) {
             // If email is exists then toast msg will display.
-            Toast.makeText(RegisterActivity.this, "Email Already Exists", Toast.LENGTH_LONG).show();
+            Toast.makeText(OwnerRegisterActivity.this, "Email Already Exists", Toast.LENGTH_LONG).show();
         } else {
             // If email already dose n't exists then user registration details will entered to SQLite database.
             InsertDataIntoSQLiteDatabase();

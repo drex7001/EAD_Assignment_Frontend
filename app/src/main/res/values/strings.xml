@@ -1,4 +1,10 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Fuel Q</string>
     <string name="register_here_txt"> Register Here</string>
+
+    <!--  Owner Screens -->
+    <string name="Owner_Create_Shed_Button_Description"> Create Shed</string>
+    <string name="owner_nav_open">Open Nav bar</string>
+    <string name="owner_nav_close">Close Nav bar</string>
+
 </resources>

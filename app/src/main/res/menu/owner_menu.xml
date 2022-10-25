@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/owner_nav_home"
+            android:icon="@drawable/ic_owner_shed_list"
+            android:title="Home" />
+        <item
+            android:id="@+id/owner_nav_add_shed"
+            android:icon="@drawable/ic_owner_add_shed"
+            android:title="Add New Shed" />
+
+        <item
+            android:id="@+id/owner_nav_add_fuel"
+            android:icon="@drawable/ic_owner_add_fuel"
+            android:title="Add Fuel" />
+
+        <item
+            android:id="@+id/owner_nav_logout"
+            android:icon="@drawable/ic_owner_logout"
+            android:title="Logout" />
+    </group>
+
+</menu>

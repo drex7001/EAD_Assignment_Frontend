@@ -7,4 +7,9 @@
     <string name="owner_nav_open">Open Nav bar</string>
     <string name="owner_nav_close">Close Nav bar</string>
 
+    <string-array name="fuel_types">
+        <item>Petrol</item>
+        <item>Diesel</item>
+    </string-array>
+
 </resources>

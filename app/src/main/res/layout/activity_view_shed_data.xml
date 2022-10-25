@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewShedDataActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/owner_form_background">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/owner_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/back"
+                app:theme="@style/OwnerMenuToolbarMenuIcon"
+                app:titleTextColor="@color/white">
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/viewFuelStation_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/owner_toolbar"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="View Station Data"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/addFuelStationImage"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_below="@+id/viewFuelStation_title1"
+                android:src="@drawable/owner_view_fuel_station" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/viewStation_data_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addFuelStationImage"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="12dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/viewStation_station_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Name : 11111asd xxx eeee aaaa bbbb asdas"
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/viewStation_station_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Address : 11111asd xxx eeee aaaa bbbb asdas jjjjj kkkk aaadd"
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/viewStation_station_fueltypes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Available Fuel Types : Petrol, Diesel"
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_margin="10dp"
+                        android:background="@color/black" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/viewFuelStation_title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewStation_data_card"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="View Fuel Data"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/viewStation_fuel_data_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewFuelStation_title2"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="12dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/viewStation_station_fuel_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Fuel Name : "
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/viewStation_station_fuel_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Fuel Type : "
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/viewStation_station_fuel_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Available Amount : "
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/viewStation_station_fuel_arrivalTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Arrival Time : "
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
+
+                    <Button
+                        android:id="@+id/update_fuel_finish_time_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/viewStation_station_fuel_arrivalTime"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="20dp"
+                        android:backgroundTint="#710000"
+                        android:textColor="@color/white"
+                        android:padding="20dp"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:text="Update Finish" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,10 +24,10 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
 
+        // Nav bar
         ownerDrawerLayout = findViewById(R.id.owner_home);
         ownerNavigationView = findViewById(R.id.owner_nav_bar);
         ownerToolbar =  findViewById(R.id.owner_toolbar);
-
         setSupportActionBar(ownerToolbar);
         getSupportActionBar().setTitle("Fuel Q - Owner Menu");
 
@@ -38,6 +38,8 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
         toggle.syncState();
 
         ownerNavigationView.setNavigationItemSelectedListener(this);
+
+        //List view
 
     }
 
@@ -63,7 +65,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
             case R.id.owner_nav_add_fuel:
                 Intent intent2 = new Intent(OwnerHomeActivity.this, OwnerAddFuel.class);
                 startActivity(intent2);
-                finish();
+//                finish();
                 break;
             case R.id.owner_nav_logout:
                 break;

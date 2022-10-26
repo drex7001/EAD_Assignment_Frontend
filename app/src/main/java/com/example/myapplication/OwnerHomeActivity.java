@@ -73,7 +73,6 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
         fuelStationArrayList = new ArrayList<>();
         getStationData();
 
-
     }
 
     private void getStationData() {

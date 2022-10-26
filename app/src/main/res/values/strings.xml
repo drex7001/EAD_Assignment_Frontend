@@ -13,4 +13,13 @@
         <item>Diesel</item>
         <item>Both</item>
     </string-array>
+
+    <string-array name="vehicleTypes">
+        <item>Car</item>
+        <item>Bus</item>
+        <item>Motorcycle</item>
+        <item>Van</item>
+        <item>Lorry</item>
+    </string-array>
+
 </resources>

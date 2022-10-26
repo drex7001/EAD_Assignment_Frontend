@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,11 +16,24 @@ public class UserDashboardActivity extends AppCompatActivity {
     String EmailHolder;
     TextView Email,LogOUT;
     LinearLayout linearLayout;
+    Toolbar toolbar;
+
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
+
+        toolbar = findViewById(R.id.user_dashboard_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("FuelQ - User Dashboard");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         Email = (TextView)findViewById(R.id.textView1);
         LogOUT = findViewById(R.id.button1);
         linearLayout = findViewById(R.id.join_queue);
@@ -47,4 +61,5 @@ public class UserDashboardActivity extends AppCompatActivity {
         });
 
     }
+
 }

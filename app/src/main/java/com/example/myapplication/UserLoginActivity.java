@@ -31,8 +31,6 @@ public class UserLoginActivity extends AppCompatActivity {
 //    heading_owner_login
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
         LogInButton = (Button) findViewById(R.id.login);

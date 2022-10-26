@@ -9,7 +9,7 @@
         <item
             android:id="@+id/owner_nav_add_shed"
             android:icon="@drawable/ic_owner_add_shed"
-            android:title="Add New Shed" />
+            android:title="Add New Station" />
 
         <item
             android:id="@+id/owner_nav_add_fuel"

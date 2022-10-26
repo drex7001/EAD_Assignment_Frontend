@@ -100,7 +100,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
                         FuelStation fuelStation = new FuelStation(stationId, stationName, stationAddress, fuelTypes);
                         fuelStationArrayList.add(fuelStation);
                         buildRecyclerView();
-                        Log.v("Fuel Station Data", fuelTypes.toString());
+//                        Log.v("Fuel Station Data", fuelTypes.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                         circularProgressIndicator.show();

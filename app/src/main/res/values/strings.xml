@@ -10,6 +10,7 @@
     <string-array name="fuel_types">
         <item>Petrol</item>
         <item>Diesel</item>
+        <item>Both</item>
     </string-array>
 
 </resources>

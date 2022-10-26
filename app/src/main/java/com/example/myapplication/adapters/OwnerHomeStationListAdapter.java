@@ -22,8 +22,8 @@ public class OwnerHomeStationListAdapter extends RecyclerView.Adapter<OwnerHomeS
     private ArrayList<FuelStation> fuelStationArrayList;
     private Context context;
 
-    public OwnerHomeStationListAdapter(ArrayList<FuelStation> courseModalArrayList, Context context) {
-        this.fuelStationArrayList = courseModalArrayList;
+    public OwnerHomeStationListAdapter(ArrayList<FuelStation> fuelModalArrayList, Context context) {
+        this.fuelStationArrayList = fuelModalArrayList;
         this.context = context;
     }
 
@@ -35,7 +35,7 @@ public class OwnerHomeStationListAdapter extends RecyclerView.Adapter<OwnerHomeS
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OwnerHomeStationListAdapter.ViewHolder holder, int position) {
         FuelStation fuelStation = fuelStationArrayList.get(position);
         holder.stationName.setText(fuelStation.getName());
         holder.stationAddress.setText(fuelStation.getAddress());

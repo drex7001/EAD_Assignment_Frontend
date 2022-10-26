@@ -25,6 +25,7 @@
         app:menu="@menu/owner_menu"></com.google.android.material.navigation.NavigationView>
 
     <ScrollView
+        android:id="@+id/owner_home_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/owner_form_background">
@@ -93,7 +94,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Name : 11111asd xxx eeee aaaa bbbb asdas"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         android:textStyle="normal" />
 
                     <Button
@@ -101,9 +102,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/viewStation_station_name"
+                        android:layout_gravity="right"
                         android:backgroundTint="#000B43"
                         android:padding="20dp"
-                        android:layout_gravity="right"
                         android:text="View Details"
                         android:textColor="@color/white"
                         android:textSize="15sp"
@@ -113,27 +114,26 @@
 
             </androidx.cardview.widget.CardView>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButtonAddShed"
+                android:layout_below="@+id/viewStation_data_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:contentDescription="@string/Owner_Create_Shed_Button_Description"
+                android:focusable="true"
+                app:backgroundTint="#E91E63"
+                app:fabSize="normal"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                app:rippleColor="#FFFFFF"
+                app:srcCompat="@drawable/ic_add"
+                app:tint="#ffffff" />
+
         </RelativeLayout>
 
     </ScrollView>
-
-
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:id="@+id/floatingActionButtonAddShed"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:layout_marginBottom="16dp"-->
-    <!--        android:clickable="true"-->
-    <!--        android:contentDescription="@string/Owner_Create_Shed_Button_Description"-->
-    <!--        android:focusable="true"-->
-    <!--        app:fabSize="normal"-->
-    <!--        app:tint="#ffffff"-->
-    <!--        app:backgroundTint="#E91E63"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:rippleColor="#FFFFFF"-->
-    <!--        app:srcCompat="@drawable/ic_add" />-->
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

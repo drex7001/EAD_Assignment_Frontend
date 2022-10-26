@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Fuel Q</string>
+    <string name="app_name">FuelQ</string>
     <string name="register_here_txt"> Register Here</string>
+    <string name="select">Select Shed</string>
 
     <!--  Owner Screens -->
     <string name="Owner_Create_Shed_Button_Description"> Create Shed</string>
@@ -12,5 +13,4 @@
         <item>Diesel</item>
         <item>Both</item>
     </string-array>
-
 </resources>

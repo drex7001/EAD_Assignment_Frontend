@@ -1,24 +1,28 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class UserDashboardActivity extends AppCompatActivity {
     String EmailHolder;
-    TextView Email;
-    Button LogOUT ;
+    TextView Email,LogOUT;
+    LinearLayout linearLayout;
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
         Email = (TextView)findViewById(R.id.textView1);
-        LogOUT = (Button)findViewById(R.id.button1);
+        LogOUT = findViewById(R.id.button1);
+        linearLayout = findViewById(R.id.join_queue);
         Intent intent = getIntent();
         // Receiving User Email Send By MainActivity.
         EmailHolder = intent.getStringExtra(UserLoginActivity.UserEmail);
@@ -33,5 +37,14 @@ public class UserDashboardActivity extends AppCompatActivity {
                 Toast.makeText(UserDashboardActivity.this,"Log Out Successful", Toast.LENGTH_LONG).show();
             }
         });
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashboardActivity.this, ShedList.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

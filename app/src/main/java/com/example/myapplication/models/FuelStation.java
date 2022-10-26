@@ -1,10 +1,9 @@
 package com.example.myapplication.models;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuelStation {
+public class FuelStation{
 
     private String id;
     private String name;

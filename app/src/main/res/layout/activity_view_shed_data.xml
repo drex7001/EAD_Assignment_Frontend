@@ -16,7 +16,7 @@
             android:background="@drawable/owner_form_background">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/owner_toolbar"
+                android:id="@+id/owner_viewStation_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/black"
@@ -33,7 +33,7 @@
                 android:id="@+id/viewFuelStation_title1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/owner_toolbar"
+                android:layout_below="@+id/owner_viewStation_toolbar"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="View Station Data"
@@ -75,7 +75,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
-                        android:text="Name : 11111asd xxx eeee aaaa bbbb asdas"
+                        android:text="Name : Aradhana Fuel Service"
                         android:textSize="24sp"
                         android:textStyle="normal" />
 
@@ -84,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
-                        android:text="Address : 11111asd xxx eeee aaaa bbbb asdas jjjjj kkkk aaadd"
+                        android:text="Address : Colombo 7"
                         android:textSize="24sp"
                         android:textStyle="normal" />
 

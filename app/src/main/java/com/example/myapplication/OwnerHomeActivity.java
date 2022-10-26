@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +25,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.myapplication.adapters.OwnerHomeStationListAdapter;
 import com.example.myapplication.models.FuelStation;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +42,10 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
     DrawerLayout ownerDrawerLayout;
     NavigationView ownerNavigationView;
     Toolbar ownerToolbar;
+    CircularProgressIndicator circularProgressIndicator;
+    ArrayList<FuelStation> fuelStationArrayList;
+    OwnerHomeStationListAdapter adapter;
+    RecyclerView stationRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,8 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
         ownerDrawerLayout = findViewById(R.id.owner_home);
         ownerNavigationView = findViewById(R.id.owner_nav_bar);
         ownerToolbar = findViewById(R.id.owner_toolbar);
+        circularProgressIndicator = findViewById(R.id.owner_home_progressIndicator);
+        stationRV = findViewById(R.id.owner_home_shedList_rview);
         setSupportActionBar(ownerToolbar);
         getSupportActionBar().setTitle("Fuel Q - Owner Menu");
 
@@ -60,6 +70,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
         ownerNavigationView.setNavigationItemSelectedListener(this);
 
         //Handle REST API
+        fuelStationArrayList = new ArrayList<>();
         getStationData();
 
 
@@ -73,6 +84,8 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, GET_ALL_URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                circularProgressIndicator.hide();
+                stationRV.setVisibility(View.VISIBLE);
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject responseObj = response.getJSONObject(i);
@@ -85,20 +98,32 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
                             fuelTypes.add(fuelTypesArrJson.getString(j));
                         }
                         FuelStation fuelStation = new FuelStation(stationId, stationName, stationAddress, fuelTypes);
+                        fuelStationArrayList.add(fuelStation);
+                        buildRecyclerView();
                         Log.v("Fuel Station Data", fuelTypes.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        circularProgressIndicator.show();
                     }
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(OwnerHomeActivity.this, "Fail to get the data..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OwnerHomeActivity.this, "Fail to get data", Toast.LENGTH_SHORT).show();
             }
         });
 
         requestQueue.add(jsonArrayRequest);
+    }
+
+    private void buildRecyclerView() {
+        adapter = new OwnerHomeStationListAdapter(fuelStationArrayList, OwnerHomeActivity.this);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        stationRV.setHasFixedSize(true);
+        stationRV.setLayoutManager(manager);
+        stationRV.setAdapter(adapter);
     }
 
     @Override

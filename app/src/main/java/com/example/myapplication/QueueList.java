@@ -5,6 +5,7 @@ import static com.example.myapplication.models.Utils.BACKEND_URI;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -27,17 +28,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myapplication.models.Fuel;
-import com.example.myapplication.models.FuelStation;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class QueueList extends AppCompatActivity {
 
@@ -46,7 +42,6 @@ public class QueueList extends AppCompatActivity {
     ArrayList<String> volume_list = new ArrayList<>();
     ArrayList<String> vehicle_count = new ArrayList<>();
 
-    Button join;
     String fuelStationID;
 
     @SuppressLint("MissingInflatedId")
@@ -54,6 +49,18 @@ public class QueueList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_queue_list);
+
+        //toolbar
+        Toolbar toolbar;
+        toolbar = findViewById(R.id.user_shed_data_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("FuelQ - Station Fuel Data");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         fuelStationID = getIntent().getStringExtra("FUEL_STATION_ID");
         Log.i("fuelStationID", fuelStationID);

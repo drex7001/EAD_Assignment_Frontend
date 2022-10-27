@@ -2,18 +2,20 @@ package com.example.myapplication;
 
 import static com.example.myapplication.models.Utils.BACKEND_URI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,11 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myapplication.adapters.OwnerHomeStationListAdapter;
-import com.example.myapplication.models.Fuel;
-import com.example.myapplication.models.FuelStation;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,24 +35,56 @@ import java.util.List;
 
 public class ShedList extends AppCompatActivity {
     ListView listView;
-    CircularProgressIndicator circularProgressIndicator;
-    ArrayList<FuelStation> fuelStationArrayList;
-    OwnerHomeStationListAdapter adapter;
     Toolbar userShedListToolbar;
+    EditText searchText;
     ArrayList<String> allSheds = new ArrayList<>();
     private ArrayList<String> fuelStationsIDList = new ArrayList<String>();
+    private ArrayAdapter shed_list_adapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shed_list);
+
+        //init ids
+        searchText = findViewById(R.id.user_search_station);
+        shed_list_adapter = new ArrayAdapter<String>(this, R.layout.shed_item, R.id.shed_name, allSheds);
+
+        //init toolbar
+        userShedListToolbar = findViewById(R.id.user_dashboard_toolbar);
+        setSupportActionBar(userShedListToolbar);
+        getSupportActionBar().setTitle("FuelQ - Available Fuel Stations");
+        userShedListToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         getAllStationData();
+
+        //search function
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                shed_list_adapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
     }
 
     private void getAllStationData() {
         NukeSSLCerts.nuke(); //trust certificates
-        String GET_ALL_URL = BACKEND_URI+"fuelstation";
+        String GET_ALL_URL = BACKEND_URI + "fuelstation";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, GET_ALL_URL, null, new Response.Listener<JSONArray>() {
@@ -78,17 +107,17 @@ public class ShedList extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(ShedList.this, "Fail to get shed data", Toast.LENGTH_SHORT).show();
+                dialogBox();
             }
         });
 
         requestQueue.add(jsonArrayRequest);
     }
 
-    public void buildFuelStationsList(){
+    public void buildFuelStationsList() {
 //        Log.i("Shed data", allSheds.toString());
-        ListAdapter Shed_list = new ArrayAdapter<String>(this,R.layout.shed_item,R.id.shed_name,allSheds);
         listView = findViewById(R.id.shed_list);
-        listView.setAdapter(Shed_list);
+        listView.setAdapter(shed_list_adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -100,6 +129,22 @@ public class ShedList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void dialogBox() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Connection Error!");
+        alertDialogBuilder.setMessage("Please try again later.");
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }

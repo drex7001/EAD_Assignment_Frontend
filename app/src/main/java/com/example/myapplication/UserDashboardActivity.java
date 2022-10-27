@@ -86,8 +86,8 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
 
         switch (item.getItemId()) {
             case R.id.user_dashboard_item:
-                finish();
-                startActivity(getIntent());
+//                finish();
+//                startActivity(getIntent());
                 break;
             case R.id.user_vehicle_add_item:
                 Intent intent = new Intent(UserDashboardActivity.this, UserAddVehicleActivity.class);

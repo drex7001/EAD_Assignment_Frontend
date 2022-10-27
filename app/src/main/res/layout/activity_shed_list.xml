@@ -1,25 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".UserDashboardActivity">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView1"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/user_dashboard_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="Select Shed For Continue"
-        android:textSize="20dp" />
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/back"
+        app:theme="@style/OwnerMenuToolbarMenuIcon"
+        app:titleTextColor="@color/white" />
 
-    <ListView
-        android:id="@+id/shed_list"
+    <EditText
+        android:id="@+id/user_search_station"
         android:layout_width="match_parent"
-        android:divider="@color/purple_200"
+        android:padding="20dp"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_search"
+        android:layout_below="@+id/user_dashboard_toolbar"
+        android:hint="Search Here..."
+       >
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/user_search_station"
         android:layout_height="match_parent"
-        android:dividerHeight="1dip"
-        />
-</LinearLayout>
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        tools:context=".UserDashboardActivity">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Select Station For Continue"
+            android:layout_marginBottom="10dp"
+            android:textSize="20dp" />
+
+        <ListView
+            android:id="@+id/shed_list"
+            android:layout_width="match_parent"
+            android:divider="@color/purple_200"
+            android:layout_height="match_parent"
+            android:dividerHeight="1dip"
+            />
+    </LinearLayout>
+</RelativeLayout>

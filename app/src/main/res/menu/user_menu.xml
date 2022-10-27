@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/user_dashboard_item"
+            android:icon="@drawable/ic_home"
+            android:title="Dashboard" />
+        <item
+            android:id="@+id/user_vehicle_add_item"
+            android:icon="@drawable/ic_vehicle"
+            android:title="Add vehicle" />
+
+        <item
+            android:id="@+id/user_all_vehicles_item"
+            android:icon="@drawable/ic_vehicles_all"
+            android:title="All Vehicles" />
+
+        <item
+            android:id="@+id/user_previous_fuel_list"
+            android:icon="@drawable/ic_owner_add_fuel"
+            android:title="Fuel Filling List" />
+
+        <item
+            android:id="@+id/user_logout_item"
+            android:icon="@drawable/ic_owner_logout"
+            android:title="Logout" />
+    </group>
+
+</menu>

@@ -31,8 +31,6 @@ public class OwnerLoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_login);
         LogInButton = (Button) findViewById(R.id.login);
@@ -116,9 +114,9 @@ public class OwnerLoginActivity extends AppCompatActivity {
         if (TempPassword.equalsIgnoreCase(PasswordHolder)) {
             Toast.makeText(OwnerLoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
             // Going to Dashboard activity after login success message.
-            Intent intent = new Intent(OwnerLoginActivity.this, UserDashboardActivity.class);
+            Intent intent = new Intent(OwnerLoginActivity.this, OwnerHomeActivity.class);
             // Sending Email to Dashboard Activity using intent.
-            intent.putExtra(UserEmail, EmailHolder);
+//            intent.putExtra(UserEmail, EmailHolder);
             startActivity(intent);
         } else {
             Toast.makeText(OwnerLoginActivity.this, "UserName or Password is Wrong, Please Try Again.", Toast.LENGTH_LONG).show();

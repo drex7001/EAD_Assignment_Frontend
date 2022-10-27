@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OwnerAddFuel">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/owner_form_background"
+            >
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/owner_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/back"
+                app:theme="@style/OwnerMenuToolbarMenuIcon"
+                app:titleTextColor="@color/white">
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/addFuelTitle"
+                android:layout_below="@+id/owner_toolbar"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Add Fuel Data"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:id="@+id/addFuelStationImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/addFuelTitle"
+                android:src="@drawable/add_fuel_data_form"
+                />
+
+            <EditText
+                android:id="@+id/addFuelData_FuelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addFuelStationImage"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="#30ffffff"
+                android:hint="Fuel Type Name"
+                android:padding="20dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                />
+
+            <EditText
+                android:id="@+id/addFuelData_FuelStation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addFuelData_FuelName"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="#30ffffff"
+                android:hint="Select Fuel Station"
+                android:padding="20dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                />
+
+            <Spinner
+                android:id="@+id/addFuelData_FuelType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addFuelData_FuelStation"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="Fuel Type"
+                android:background="#30ffffff"
+                android:minHeight="48dp"
+                android:padding="20dp"
+                android:theme="@style/fuel_types_spinner" />
+
+            <EditText
+                android:id="@+id/addFuelData_FuelAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addFuelData_FuelType"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="#30ffffff"
+                android:hint="Fuel Amount"
+                android:inputType="number"
+                android:padding="20dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                />
+
+            <Button
+                android:id="@+id/add_fuel_station_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addFuelData_FuelAmount"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/white"
+                android:padding="20dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="Submit" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

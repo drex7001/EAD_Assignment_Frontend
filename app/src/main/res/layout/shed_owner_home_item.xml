@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewStation_data_card_home"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    app:cardMaxElevation="12dp"
+    app:cardPreventCornerOverlap="true"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="15dp"
+    app:cardUseCompatPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/owner_home_viewStation_station_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name : Aradhana Fuel Station"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+        <TextView
+            android:id="@+id/owner_home_viewStation_station_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address : No:123 Colombo Road, Colombo"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/owner_home_viewStation_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/owner_home_viewStation_station_address"
+            android:layout_gravity="right"
+            android:backgroundTint="#000B43"
+            android:padding="10dp"
+            android:text="View Details"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

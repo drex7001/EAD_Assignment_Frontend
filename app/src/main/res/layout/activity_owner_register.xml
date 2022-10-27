@@ -16,180 +16,196 @@
     tools:layout_editor_absoluteX="1dp"
     tools:layout_editor_absoluteY="1dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="24dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/heading_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20px"
-            android:fontFamily="sans-serif-medium"
-            android:text="Signup for Fuel Q"
-            android:textColor="@color/white"
-            android:textSize="36sp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="120px"
+            android:layout_margin="24dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/username_text"
-                android:layout_width="match_parent"
+                android:id="@+id/heading_login_sub"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:layout_marginTop="20px"
+                android:fontFamily="sans-serif-medium"
+                android:text="FuelQ Owner"
                 android:textColor="@color/white"
-
-                />
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:alpha="0.6"
-                android:background="@drawable/edit_text_border"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:hint="Enter email here"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:textSize="16dp" />
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/name_txt"
-                android:layout_width="match_parent"
+                android:id="@+id/heading_login"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Name"
-                android:textColor="@color/white" />
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/edit_text_border"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:hint="Enter name here"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:textSize="16dp"
-                android:alpha="0.6"/>
-
-            <TextView
-                android:id="@+id/password_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Password"
-                android:textColor="@color/white" />
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:alpha="0.6"
-                android:background="@drawable/edit_text_border"
-                android:ems="10"
-                android:hint="Enter your password here"
-                android:inputType="textPassword"
-                android:padding="12dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:textSize="16dp" />
-
-
-            <TextView
-                android:id="@+id/password_confirmation_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Confirm Password"
-                android:textColor="@color/white" />
-
-            <EditText
-                android:id="@+id/password_confirmation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:alpha="0.6"
-                android:background="@drawable/edit_text_border"
-                android:ems="10"
-                android:hint="Enter your password again"
-                android:inputType="textPassword"
-                android:padding="12dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#FFFFFF"
-                android:textSize="16dp" />
-
-            <Button
-                android:id="@+id/register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:text="Register" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:alpha="0.6"
-                    android:text="If you already have account"
-                    android:textAlignment="viewEnd"
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/login_here"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=" Login here"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold|italic" />
-
-            </LinearLayout>
+                android:layout_marginTop="20px"
+                android:fontFamily="sans-serif-medium"
+                android:text="Signup"
+                android:textColor="@color/white"
+                android:textSize="36sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="120px"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/username_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:layout_weight="1"
-                    android:alpha="0.5"
-                    android:text="Fuel Q uses cookies for analytics personalized content and ads, By using Fuel Q services you agree to this use of cookies."
-                    android:textAlignment="center"
+                    android:text="Email"
+                    android:textColor="@color/white"
+
+                    />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.6"
+                    android:background="@drawable/edit_text_border"
+                    android:ems="10"
+                    android:hint="Enter email here"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
                     android:textColor="#FFFFFF"
-                    android:textSize="12dp" />
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/name_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Name"
+                    android:textColor="@color/white" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.6"
+                    android:background="@drawable/edit_text_border"
+                    android:ems="10"
+                    android:hint="Enter name here"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/password_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Password"
+                    android:textColor="@color/white" />
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.6"
+                    android:background="@drawable/edit_text_border"
+                    android:ems="10"
+                    android:hint="Enter your password here"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:id="@+id/password_confirmation_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Confirm Password"
+                    android:textColor="@color/white" />
+
+                <EditText
+                    android:id="@+id/password_confirmation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.6"
+                    android:background="@drawable/edit_text_border"
+                    android:ems="10"
+                    android:hint="Enter your password again"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF"
+                    android:textSize="16dp" />
+
+                <Button
+                    android:id="@+id/register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="64dp"
+                    android:text="Register" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.6"
+                        android:text="If you already have account"
+                        android:textAlignment="viewEnd"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/login_here"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=" Login here"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold|italic" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:layout_marginBottom="20dp"
+                        android:text="Fuel Q uses cookies for analytics personalized content and ads, By using Fuel Q services you agree to this use of cookies."
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+
             </LinearLayout>
-
-
-
         </LinearLayout>
 
-    </LinearLayout>
-
+    </ScrollView>
 
 </LinearLayout>
+
+
 

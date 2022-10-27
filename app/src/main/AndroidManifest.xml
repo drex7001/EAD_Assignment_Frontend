@@ -85,9 +85,16 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity> <!-- //https://www.digitalocean.com/community/tutorials/android-splash-screen -->
+        </activity>
         <activity
             android:name=".UserRegisterActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".UserDashboardActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

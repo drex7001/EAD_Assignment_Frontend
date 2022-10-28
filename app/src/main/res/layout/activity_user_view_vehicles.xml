@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OwnerViewFuelDataHistory">
-    >
+    tools:context=".UserViewVehiclesActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/owner_fuel_history_toolbar"
+        android:id="@+id/user_vehicles_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
@@ -17,40 +17,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/back"
         app:theme="@style/OwnerMenuToolbarMenuIcon"
-        app:titleTextColor="@color/white"></androidx.appcompat.widget.Toolbar>
+        app:titleTextColor="@color/white" />
 
     <TextView
-        android:id="@+id/owner_shed_list_history_title"
+        android:id="@+id/user_view_vehicles_tile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/owner_fuel_history_toolbar"
+        android:layout_below="@+id/user_vehicles_toolbar"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="Fuel Data History"
+        android:text="My Vehicles"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/owner_history_notFound"
+        android:id="@+id/user_vehicles_notFound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/owner_shed_list_history_title"
+        android:layout_below="@+id/user_view_vehicles_tile"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="No History Data Found!"
+        android:text="No Vehicle Data Found!"
         android:textColor="#830000"
         android:textSize="20dp"
         android:textStyle="bold"
         android:visibility="gone" />
 
     <ListView
-        android:id="@+id/fuel_history_list"
+        android:id="@+id/user_vehicles_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/owner_history_notFound"
+        android:layout_below="@+id/user_vehicles_notFound"
+        android:layout_margin="2dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp" />
-</RelativeLayout>
 
+</RelativeLayout>

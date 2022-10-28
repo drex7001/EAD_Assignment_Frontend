@@ -11,4 +11,7 @@ public class Utils {
     public static final String USER_ID_KEY = "user_id";
     public static final String PASSWORD_KEY = "user_password";
 
+    public static final String USER_QUEUE_STATUS = "user_queue_status"; // joined | not_joined
+    public static final String USER_QUEUE_ID = "user_password";
+
 }

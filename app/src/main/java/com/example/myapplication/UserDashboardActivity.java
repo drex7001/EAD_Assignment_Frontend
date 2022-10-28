@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import static com.example.myapplication.models.Utils.SHARED_PREFS;
 import static com.example.myapplication.models.Utils.USER_NAME_KEY;
+import static com.example.myapplication.models.Utils.USER_QUEUE_STATUS;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Objects;
+
 
 public class UserDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,8 +34,9 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
     DrawerLayout userDrawerLayout;
     NavigationView userNavigationView;
 
-    TextView userNameView;
+    TextView userNameView, userQJoinBtnView;
     LinearLayout linearLayoutJoinQ;
+    LinearLayout linerLayoutViewVehicles;
     Toolbar toolbar;
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -43,7 +47,8 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
 
         //id init
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        userNameView = (TextView)findViewById(R.id.textView1);
+        userNameView = (TextView) findViewById(R.id.textView1);
+        userQJoinBtnView = (TextView) findViewById(R.id.qJoinView);
 
         //nav and toolbar
         userDrawerLayout = findViewById(R.id.user_home);
@@ -69,13 +74,31 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
 
         //Setup dashboard body
         linearLayoutJoinQ = findViewById(R.id.join_queue);
+        linerLayoutViewVehicles = findViewById(R.id.user_vehicles);
         String userName = sharedpreferences.getString(USER_NAME_KEY, null);
-        userNameView.setText("Hi, "+ userName);
+        userNameView.setText("Hi, " + userName);
+
+        //check user in a queue
+        String userStatusQ = sharedpreferences.getString(USER_QUEUE_STATUS, null);
+        Intent intent;
+        if (Objects.equals(userStatusQ, "joined")) {
+            userQJoinBtnView.setText("View Queue");
+            intent = new Intent(UserDashboardActivity.this, Queue.class);
+        } else {
+            userQJoinBtnView.setText("Join Queue");
+            intent = new Intent(UserDashboardActivity.this, ShedList.class);
+        }
 
         linearLayoutJoinQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserDashboardActivity.this, ShedList.class);
+                startActivity(intent);
+            }
+        });
+        linerLayoutViewVehicles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashboardActivity.this, UserViewVehiclesActivity.class);
                 startActivity(intent);
             }
         });
@@ -94,8 +117,8 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
                 startActivity(intent);
                 break;
             case R.id.user_all_vehicles_item:
-//                Intent intent2 = new Intent(UserDashboardActivity.this, UserAddVehicleActivity.class);
-//                startActivity(intent2);
+                Intent intent2 = new Intent(UserDashboardActivity.this, UserViewVehiclesActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.user_previous_fuel_list:
 //                Intent intent3 = new Intent(UserDashboardActivity.this, UserAddVehicleActivity.class);
@@ -105,7 +128,7 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.clear().commit();
 
-                Toast.makeText(UserDashboardActivity.this,"Log Out Successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(UserDashboardActivity.this, "Log Out Successful", Toast.LENGTH_LONG).show();
 
                 Intent intentLogout = new Intent(UserDashboardActivity.this, UserLoginActivity.class);
                 startActivity(intentLogout);

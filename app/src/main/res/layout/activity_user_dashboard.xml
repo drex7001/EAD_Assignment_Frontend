@@ -119,6 +119,7 @@
                             android:padding="20dp">
 
                             <TextView
+                                android:id="@+id/qJoinView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -136,6 +137,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/user_vehicles"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_marginLeft="10dp"
@@ -148,12 +150,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="User"
+                                android:text="User Vehicles"
                                 android:textSize="20dp" />
 
                             <ImageView
                                 android:layout_width="60dp"
-                                android:layout_height="60dp"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="20dp"
                                 android:src="@drawable/user" />

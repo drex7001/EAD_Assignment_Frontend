@@ -87,8 +87,8 @@ public class OwnerViewFuelDataHistory extends AppCompatActivity {
                         String fuelStatus = responseObj.getString("status");
                         String fuelName = responseObj.getString("name");
                         String fuelType = responseObj.getString("type");
-                        String fuelArrivalTime = responseObj.getString("arrivalTime");
-                        String fuelFinishedTime = responseObj.getString("finishTime");
+                        String fuelArrivalTime = getDateTime(responseObj.getString("arrivalTime"));
+                        String fuelFinishedTime = getDateTime(responseObj.getString("finishTime"));
                         String fuelAmount = responseObj.getString("amount");
                         JSONArray userVCountArr = resObj.getJSONArray("vehicleCountList");
                         String vehicleString = "";
@@ -122,5 +122,13 @@ public class OwnerViewFuelDataHistory extends AppCompatActivity {
         listView.setAdapter(fuel_list_adapter);
     }
 
+    public String getDateTime(String datetimeUTC){
+        String[] parts = datetimeUTC.split("T");
+        String timeRem = parts[1].toString();
+        String[] parts2 = timeRem.split("\\.");
+        String time = parts2[0];
+        String datetime = parts[0] +":"+ time;
+        return datetime;
+    }
 
 }

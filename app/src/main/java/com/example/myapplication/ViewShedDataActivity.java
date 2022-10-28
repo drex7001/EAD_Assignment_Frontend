@@ -8,11 +8,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +43,13 @@ import java.util.Map;
 public class ViewShedDataActivity extends AppCompatActivity {
 
     Toolbar viewStationToolbar;
-    TextView stationName, stationAddress, stationFuelTypes;
+    TextView stationName, stationAddress, stationFuelTypes, dataNotFound;
     RecyclerView recyclerView;
     CircularProgressIndicator circularProgressIndicator;
     ArrayList<Fuel> fuelDataList;
     OwnerViewFuelListAdapter adapter;
     String fuelStationID = "";
+    Button historyViewBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class ViewShedDataActivity extends AppCompatActivity {
         stationFuelTypes = findViewById(R.id.viewStation_station_fueltypes);
         recyclerView = findViewById(R.id.owner_viewStation_fuel_rv);
         circularProgressIndicator = findViewById(R.id.owner_viewStation_progressIndicator);
+        dataNotFound = findViewById(R.id.viewFuelStation_noData);
+        historyViewBtn = findViewById(R.id.owner_fuel_data_history_button);
 
         //get intent data
         Gson gson = new Gson();
@@ -90,6 +95,15 @@ public class ViewShedDataActivity extends AppCompatActivity {
             }
         }
 
+        historyViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OwnerViewFuelDataHistory.class);
+                intent.putExtra("FUEL_ID", fuelStationID);
+                startActivity(intent);
+            }
+        });
+
         stationFuelTypes.setText("Fuel Type : "+allFuelTypes);
 
         //get data
@@ -109,6 +123,9 @@ public class ViewShedDataActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 circularProgressIndicator.hide();
                 recyclerView.setVisibility(View.VISIBLE);
+                if(response.length() == 0){
+                    dataNotFound.setVisibility(View.VISIBLE);
+                }
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject resObj = response.getJSONObject(i);

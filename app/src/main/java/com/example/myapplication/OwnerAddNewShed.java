@@ -1,10 +1,17 @@
 package com.example.myapplication;
 
 import static com.example.myapplication.models.Utils.BACKEND_URI;
+import static com.example.myapplication.models.Utils.SHARED_PREFS;
+import static com.example.myapplication.models.Utils.USER_ID_KEY;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,11 +21,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myapplication.models.Fuel;
@@ -34,6 +44,9 @@ import java.util.Map;
 
 public class OwnerAddNewShed extends AppCompatActivity {
 
+    SharedPreferences sharedpreferences;
+    String ownerID;
+
     Toolbar addNewStationToolbar;
     Spinner spinner;
     TextView stationName;
@@ -43,6 +56,10 @@ public class OwnerAddNewShed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_add_new_shed);
+
+        //get owner id form login user
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        ownerID = sharedpreferences.getString(USER_ID_KEY, null);
 
         //set toolbar
         addNewStationToolbar =  findViewById(R.id.owner_toolbar);
@@ -75,7 +92,6 @@ public class OwnerAddNewShed extends AppCompatActivity {
                 if( stationName.getText().toString().matches("") || stationAddress.getText().toString().matches("")){
                     Toast.makeText(getApplicationContext(), "Please Fill All Fields!", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(getApplicationContext(), fType, Toast.LENGTH_SHORT).show();
                     //api call
                     String sName = stationName.getText().toString();
                     String sAddress= stationAddress.getText().toString();
@@ -91,7 +107,7 @@ public class OwnerAddNewShed extends AppCompatActivity {
                     }
 
                     Log.i("FType", fTypes.get(0));
-//                    postData();
+                    postData(sName, sAddress, fTypes);
                 }
             }
         });
@@ -100,40 +116,65 @@ public class OwnerAddNewShed extends AppCompatActivity {
 
     private void postData(String name, String address, List<String> types) {
         NukeSSLCerts.nuke();
-        String ADD_NEW_FUEL_STATION = BACKEND_URI+"fuel/fuelstation";
+        String ADD_NEW_FUEL_STATION = BACKEND_URI+"fuelstation";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.POST, ADD_NEW_FUEL_STATION, new com.android.volley.Response.Listener<String>() {
+
+        JSONObject responseBodyData = new JSONObject();
+        try {
+            responseBodyData.put("name", name);
+            responseBodyData.put("address", address);
+            responseBodyData.put("ownerID", ownerID);
+            responseBodyData.put("fuelTypes", new JSONArray(types));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, ADD_NEW_FUEL_STATION, responseBodyData,new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 stationName.setText("");
                 stationAddress.setText("");
                 Toast.makeText(OwnerAddNewShed.this, "Data saved successfully!", Toast.LENGTH_SHORT).show();
                 try {
-                    JSONObject respObj = new JSONObject(response);
-                    String id = respObj.toString();
-                    Log.i("Created Station ID", id);
-
-                } catch (JSONException e) {
+                    String createdId = response.getString("id");
+                    Log.i("Created Station ID", "Created!");
+                    dialogBox("Success!", "Fuel Station Created Successfully!");
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(OwnerAddNewShed.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
+                dialogBox("Error!", "Please try again later!");
             }
-        }) {
+        }){
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", name);
-                params.put("address", address);
-                params.put("fuelTypes", types.toString());
-                params.put("ownerID", "63575e6a8e1aee177127c7a9");
-                return params;
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
             }
         };
         requestQueue.add(request);
+    }
+
+    public void dialogBox(String type, String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(type);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                        Intent intent = new Intent(OwnerAddNewShed.this, OwnerHomeActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }

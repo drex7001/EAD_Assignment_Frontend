@@ -4,11 +4,13 @@ import static com.example.myapplication.models.Utils.BACKEND_URI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,12 +73,17 @@ public class QueueList extends AppCompatActivity {
 
     private void getFuelData() {
         NukeSSLCerts.nuke(); //trust certificates
-        String GET_ALL_FUEL_URL = BACKEND_URI+"fuel/station/"+fuelStationID;
+        String GET_ALL_FUEL_URL = BACKEND_URI + "fuel/station/" + fuelStationID;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, GET_ALL_FUEL_URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                if (response.length() == 0) {
+                    String type = "Sorry!.Active Fuel Queue Not Found.";
+                    String message = "Please wait until station owner update the status or select another fuel station.";
+                    dialogBox(type, message);
+                }
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject resObj = response.getJSONObject(i);
@@ -84,7 +91,7 @@ public class QueueList extends AppCompatActivity {
                         String fuelName = responseObj.getString("name");
                         String fuelAmountSt = responseObj.getString("amount");
                         queue_type.add(fuelName);
-                        volume_list.add("Available Amount: "+ fuelAmountSt + " L");
+                        volume_list.add("Available Amount: " + fuelAmountSt + " L");
                         Log.i("queue_type", queue_type.toString());
 
                         JSONArray userVCountArr = resObj.getJSONArray("vehicleCountList");
@@ -112,9 +119,9 @@ public class QueueList extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
-    public void createListViewAdapter(){
+    public void createListViewAdapter() {
         queueList = findViewById(R.id.queue_list);
-        CustomAdapter adapter = new CustomAdapter(this,queue_type,volume_list,vehicle_count);
+        CustomAdapter adapter = new CustomAdapter(this, queue_type, volume_list, vehicle_count);
         queueList.setAdapter(adapter);
 
         queueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -126,17 +133,33 @@ public class QueueList extends AppCompatActivity {
         });
     }
 
+    public void dialogBox(String type, String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(type);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
 }
 
-class CustomAdapter extends ArrayAdapter<String>{
+class CustomAdapter extends ArrayAdapter<String> {
 
     Context content;
     ArrayList<String> queue_type = new ArrayList<>();
     ArrayList<String> volume_list = new ArrayList<>();
     ArrayList<String> vehicle_count = new ArrayList<>();
 
-    public CustomAdapter(Context context,ArrayList<String> queue_type,ArrayList<String> volume,ArrayList<String> vehicle_count) {
-        super(context, R.layout.activity_queue,R.id.queue_type,queue_type);
+    public CustomAdapter(Context context, ArrayList<String> queue_type, ArrayList<String> volume, ArrayList<String> vehicle_count) {
+        super(context, R.layout.activity_queue, R.id.queue_type, queue_type);
         this.content = context;
         this.queue_type = queue_type;
         this.volume_list = volume;
@@ -147,7 +170,7 @@ class CustomAdapter extends ArrayAdapter<String>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(getContext().LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.queue_item,parent,false);
+        View row = inflater.inflate(R.layout.queue_item, parent, false);
         TextView queue_typeView = row.findViewById(R.id.queue_type);
         TextView volumeView = row.findViewById(R.id.volume);
         TextView vehicle_countView = row.findViewById(R.id.vehicle_count);

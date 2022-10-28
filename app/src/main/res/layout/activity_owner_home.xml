@@ -69,40 +69,53 @@
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/owner_home_progressIndicator"
+                style="@style/Widget.MaterialComponents.CircularProgressIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:indicatorColor="@color/white"
-                android:layout_centerHorizontal="true"
-                android:indeterminate="true"
                 android:layout_below="@+id/addFuelStationImage"
-                style="@style/Widget.MaterialComponents.CircularProgressIndicator"
-            />
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                app:indicatorColor="@color/white" />
+
+            <TextView
+                android:id="@+id/viewFuelStation_noData"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/owner_home_progressIndicator"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:textColor="#92FF1919"
+                android:text="Sorry No Active Fuel Station Data Found!. Please add fuel station to continue."
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/owner_home_shedList_rview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/owner_home_progressIndicator"
-                android:visibility="gone"
-            />
+                android:visibility="gone" />
 
-<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--                android:id="@+id/floatingActionButtonAddShed"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginEnd="16dp"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                android:clickable="true"-->
-<!--                android:contentDescription="@string/Owner_Create_Shed_Button_Description"-->
-<!--                android:focusable="true"-->
-<!--                app:backgroundTint="#E91E63"-->
-<!--                app:fabSize="normal"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                app:rippleColor="#FFFFFF"-->
-<!--                app:srcCompat="@drawable/ic_add"-->
-<!--                app:tint="#ffffff" />-->
+
+            <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+            <!--                android:id="@+id/floatingActionButtonAddShed"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                android:clickable="true"-->
+            <!--                android:contentDescription="@string/Owner_Create_Shed_Button_Description"-->
+            <!--                android:focusable="true"-->
+            <!--                app:backgroundTint="#E91E63"-->
+            <!--                app:fabSize="normal"-->
+            <!--                android:layout_alignParentBottom="true"-->
+            <!--                android:layout_alignParentRight="true"-->
+            <!--                app:rippleColor="#FFFFFF"-->
+            <!--                app:srcCompat="@drawable/ic_add"-->
+            <!--                app:tint="#ffffff" />-->
 
         </RelativeLayout>
 

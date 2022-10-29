@@ -101,7 +101,7 @@ public class UserFuelHistoryActivity extends AppCompatActivity {
                         String arrivalTime = getDateTime(responseObjQueueUser.getString("arrivalTime"));
 
                         String finishedTime = "";
-                        if(responseObjQueueUser.getString("departTime").equals(JSONObject.NULL)){
+                        if(!responseObjQueueUser.isNull( "departTime" )){
                             finishedTime = getDateTime(responseObjQueueUser.getString("departTime"));
                         }
 

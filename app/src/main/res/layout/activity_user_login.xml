@@ -93,7 +93,7 @@
                 android:background="@drawable/edit_text_border"
                 android:ems="10"
                 android:hint="Enter email here"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:padding="12dp"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"

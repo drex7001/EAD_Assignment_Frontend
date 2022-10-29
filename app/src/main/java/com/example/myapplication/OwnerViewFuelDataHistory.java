@@ -2,9 +2,11 @@ package com.example.myapplication;
 
 import static com.example.myapplication.models.Utils.BACKEND_URI;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,6 +105,7 @@ public class OwnerViewFuelDataHistory extends AppCompatActivity {
                         buildFuelDataList();
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        dialogBox("Error!", "Please try again later.");
                     }
                 }
 
@@ -129,6 +132,24 @@ public class OwnerViewFuelDataHistory extends AppCompatActivity {
         String time = parts2[0];
         String datetime = parts[0] +":"+ time;
         return datetime;
+    }
+
+    public void dialogBox(String type, String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(type);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                        Intent intent = new Intent(OwnerViewFuelDataHistory.this, UserDashboardActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }

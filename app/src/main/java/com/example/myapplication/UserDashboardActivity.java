@@ -121,8 +121,8 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
                 startActivity(intent2);
                 break;
             case R.id.user_previous_fuel_list:
-//                Intent intent3 = new Intent(UserDashboardActivity.this, UserAddVehicleActivity.class);
-//                startActivity(intent3);
+                Intent intent3 = new Intent(UserDashboardActivity.this, UserFuelHistoryActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.user_logout_item:
                 SharedPreferences.Editor editor = sharedpreferences.edit();

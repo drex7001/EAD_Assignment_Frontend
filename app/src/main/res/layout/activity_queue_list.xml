@@ -13,14 +13,25 @@
     tools:layout_editor_absoluteX="1dp"
     tools:layout_editor_absoluteY="1dp">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/user_shed_data_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/back"
+        app:theme="@style/OwnerMenuToolbarMenuIcon"
+        app:titleTextColor="@color/white" />
+
     <TextView
         android:id="@+id/queue_list_heading"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-        android:text="Select Queue For Continue"
+        android:text="Join Queue For Continue"
         android:textSize="20dp" />
-
 
     <ListView
         android:id="@+id/queue_list"

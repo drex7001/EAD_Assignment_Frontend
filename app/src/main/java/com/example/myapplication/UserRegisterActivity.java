@@ -1,43 +1,69 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.ActionBar;
+import static com.example.myapplication.models.Utils.BACKEND_URI;
+import static com.example.myapplication.models.Utils.EMAIL_KEY;
+import static com.example.myapplication.models.Utils.PASSWORD_KEY;
+import static com.example.myapplication.models.Utils.ROLE_KEY;
+import static com.example.myapplication.models.Utils.SHARED_PREFS;
+import static com.example.myapplication.models.Utils.USER_ID_KEY;
+import static com.example.myapplication.models.Utils.USER_NAME_KEY;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//https://www.campcodes.com/mobile-app/android-studio/login-and-registration-app-with-sqlite-database-in-android-studio/
-//https://www.youtube.com/watch?v=3865rSz9iOs&t=1s
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class UserRegisterActivity extends AppCompatActivity {
 
-    EditText Email, Password, Name;
+    String NameHolder, EmailHolder, PasswordHolder, RePasswordHolder;
+
+    SharedPreferences sharedpreferences;
+
+    EditText Email, Password, Name, RePassword;
     Button Register;
-    String NameHolder, EmailHolder, PasswordHolder;
-    Boolean EditTextEmptyHolder;
     SQLiteDatabase sqLiteDatabaseObj;
-    String SQLiteDataBaseQueryHolder;
     UserDBHelper userDBHelper;
-    Cursor cursor;
-    String F_Result = "Not_Found";
     TextView LoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
+
+        //shared pref init...
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
         Register = (Button) findViewById(R.id.register);
         Email = (EditText) findViewById(R.id.email);
         Password = (EditText) findViewById(R.id.password);
+        RePassword = (EditText) findViewById(R.id.password_confirmation);
         Name = (EditText) findViewById(R.id.name);
         userDBHelper = new UserDBHelper(this);
         LoginButton = (TextView) findViewById(R.id.login_here);
@@ -46,16 +72,7 @@ public class UserRegisterActivity extends AppCompatActivity {
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Creating SQLite database if dose n't exists
-                SQLiteDataBaseBuild();
-                // Creating SQLite table if dose n't exists.
-                SQLiteTableBuild();
-                // Checking EditText is empty or Not.
-                CheckEditTextStatus();
-                // Method to check Email is already exists or not.
-                CheckingEmailAlreadyExistsOrNot();
-                // Empty EditText After done inserting process.
-                EmptyEditTextAfterDataInsert();
+              registerUser();
             }
         });
 
@@ -70,90 +87,97 @@ public class UserRegisterActivity extends AppCompatActivity {
         });
     }
 
-    // SQLite database build method.
-    public void SQLiteDataBaseBuild() {
-        sqLiteDatabaseObj = openOrCreateDatabase(UserDBHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
-    }
 
-    // SQLite table build method.
-    public void SQLiteTableBuild() {
-        sqLiteDatabaseObj.execSQL("CREATE TABLE IF NOT EXISTS " + UserDBHelper.TABLE_NAME + "(" + UserDBHelper.Table_Column_ID + " PRIMARY KEY AUTOINCREMENT NOT NULL, " + UserDBHelper.Table_Column_1_Name + " VARCHAR, " + UserDBHelper.Table_Column_2_Email + " VARCHAR, " + UserDBHelper.Table_Column_3_Password + " VARCHAR, " + UserDBHelper.Table_Column_4_user_type + " VARCHAR );");
-    }
-
-    // Insert data into SQLite database method.
-    public void InsertDataIntoSQLiteDatabase() {
-        // If editText is not empty then this block will executed.
-        if (EditTextEmptyHolder == true) {
-            // SQLite query to insert data into table.
-            String userType = "user" ;
-            SQLiteDataBaseQueryHolder = "INSERT INTO " + UserDBHelper.TABLE_NAME + " (name,email,password,userType) VALUES('" + NameHolder + "', '" + EmailHolder + "', '" + PasswordHolder + "', '" + userType + "');";
-            // Executing query.
-            sqLiteDatabaseObj.execSQL(SQLiteDataBaseQueryHolder);
-            // Closing SQLite database object.
-            sqLiteDatabaseObj.close();
-            // Printing toast message after done inserting.
-            Toast.makeText(UserRegisterActivity.this, "User Registered Successfully", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(UserRegisterActivity.this, UserLoginActivity.class);
-            startActivity(intent);
-        }
-        // This block will execute if any of the registration EditText is empty.
-        else {
-            // Printing toast message if any of EditText is empty.
-            Toast.makeText(UserRegisterActivity.this, "Please Fill All The Required Fields.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    // Empty edittext after done inserting process method.
-    public void EmptyEditTextAfterDataInsert() {
-        Name.getText().clear();
-        Email.getText().clear();
-        Password.getText().clear();
-    }
-
-    // Method to check EditText is empty or Not.
-    public void CheckEditTextStatus() {
-        // Getting value from All EditText and storing into String Variables.
+    public void registerUser() {
         NameHolder = Name.getText().toString();
         EmailHolder = Email.getText().toString();
         PasswordHolder = Password.getText().toString();
-        String userType = "user";
-        if (TextUtils.isEmpty(NameHolder) || TextUtils.isEmpty(EmailHolder) || TextUtils.isEmpty(PasswordHolder)) {
-            EditTextEmptyHolder = false;
-        } else {
-            EditTextEmptyHolder = true;
+        RePasswordHolder = RePassword.getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (TextUtils.isEmpty(NameHolder) || TextUtils.isEmpty(EmailHolder) || TextUtils.isEmpty(PasswordHolder) || TextUtils.isEmpty(RePasswordHolder)) {
+            Toast.makeText(UserRegisterActivity.this, "Please fill all fields!", Toast.LENGTH_LONG).show();
+
+        }
+        else if(!EmailHolder.matches(emailPattern)) {
+            Toast.makeText(UserRegisterActivity.this, "Please Enter Valid Email", Toast.LENGTH_LONG).show();
+        }
+        else if(!Objects.equals(PasswordHolder, RePasswordHolder)) {
+            Toast.makeText(UserRegisterActivity.this, "Password does not matching. Please check again!", Toast.LENGTH_LONG).show();
+        }
+        else{
+            //register user
+            postData(EmailHolder, PasswordHolder, NameHolder);
         }
     }
 
-    // Checking Email is already exists or not.
-    public void CheckingEmailAlreadyExistsOrNot() {
-        // Opening SQLite database write permission.
-        sqLiteDatabaseObj = userDBHelper.getWritableDatabase();
-        // Adding search email query to cursor.
-        cursor = sqLiteDatabaseObj.query(UserDBHelper.TABLE_NAME, null, " " + UserDBHelper.Table_Column_2_Email + "=?", new String[]{EmailHolder}, null, null, null);
-        while (cursor.moveToNext()) {
-            if (cursor.isFirst()) {
-                cursor.moveToFirst();
-                // If Email is already exists then Result variable value set as Email Found.
-                F_Result = "Email Found";
-                // Closing cursor.
-                cursor.close();
+    private void postData(String email, String password, String name) {
+        NukeSSLCerts.nuke();
+        String LOGIN_USER = BACKEND_URI + "user/register";
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JSONObject responseBodyData = new JSONObject();
+        try {
+            responseBodyData.put("email", email);
+            responseBodyData.put("name", name);
+            responseBodyData.put("password", password);
+            responseBodyData.put("role", "User");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, LOGIN_USER, responseBodyData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String createdId = response.getString("id");
+
+                    if(!createdId.equals("")){
+                        Log.i("Register", "Success!");
+                        Toast.makeText(UserRegisterActivity.this, "SignUp Success!", Toast.LENGTH_SHORT).show();
+                        dialogBox("Registration Success!", "PLease login to continue.");
+
+                    }else{
+                        Toast.makeText(UserRegisterActivity.this, "User Already Registered! Please login to continue.", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(UserRegisterActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
-        // Calling method to check final result and insert data into SQLite database.
-        CheckFinalResult();
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(UserRegisterActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        requestQueue.add(request);
     }
 
-    // Checking result
-    public void CheckFinalResult() {
-        // Checking whether email is already exists or not.
-        if (F_Result.equalsIgnoreCase("Email Found")) {
-            // If email is exists then toast msg will display.
-            Toast.makeText(UserRegisterActivity.this, "Email Already Exists", Toast.LENGTH_LONG).show();
-        } else {
-            // If email already dose n't exists then user registration details will entered to SQLite database.
-            InsertDataIntoSQLiteDatabase();
-        }
-        F_Result = "Not_Found";
+    public void dialogBox(String type, String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(type);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                        Intent intent = new Intent(UserRegisterActivity.this, UserLoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }

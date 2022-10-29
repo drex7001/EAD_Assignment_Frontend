@@ -103,6 +103,15 @@
                         android:layout_height="2dp"
                         android:layout_margin="10dp"
                         android:background="@color/black" />
+
+                    <Button
+                        android:id="@+id/owner_fuel_data_history_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/black"
+                        android:textColor="@color/white"
+                        android:text="View Fuel Data History"
+                    />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -118,6 +127,20 @@
                 android:text="View Fuel Data"
                 android:textColor="@color/white"
                 android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/viewFuelStation_noData"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewFuelStation_title2"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:textColor="#92FF1919"
+                android:text="Sorry No Active Fuel Data Found!. Please add fuel to the station to continue."
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -138,6 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/owner_viewStation_progressIndicator"
                 android:visibility="gone"
+                android:layout_marginBottom="20dp"
             />
 
         </RelativeLayout>

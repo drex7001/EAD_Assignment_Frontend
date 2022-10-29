@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import static com.example.myapplication.models.Utils.BACKEND_URI;
+import static com.example.myapplication.models.Utils.SHARED_PREFS;
+import static com.example.myapplication.models.Utils.USER_ID_KEY;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -11,11 +13,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,6 +44,9 @@ import java.util.List;
 
 public class OwnerHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences sharedpreferences;
+    String ownerID;
+
     DrawerLayout ownerDrawerLayout;
     NavigationView ownerNavigationView;
     Toolbar ownerToolbar;
@@ -46,11 +54,16 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
     ArrayList<FuelStation> fuelStationArrayList;
     OwnerHomeStationListAdapter adapter;
     RecyclerView stationRV;
+    TextView notFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
+
+        //get owner id form login user
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        ownerID = sharedpreferences.getString(USER_ID_KEY, null);
 
         // Nav bar
         ownerDrawerLayout = findViewById(R.id.owner_home);
@@ -58,6 +71,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
         ownerToolbar = findViewById(R.id.owner_toolbar);
         circularProgressIndicator = findViewById(R.id.owner_home_progressIndicator);
         stationRV = findViewById(R.id.owner_home_shedList_rview);
+        notFound = findViewById(R.id.viewFuelStation_noData);
         setSupportActionBar(ownerToolbar);
         getSupportActionBar().setTitle("Fuel Q - Owner Menu");
 
@@ -77,7 +91,7 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
 
     private void getStationData() {
         NukeSSLCerts.nuke(); //trust certificates
-        String GET_ALL_URL = BACKEND_URI+"fuelstation/users/63575ba58e1aee177127c7a1";
+        String GET_ALL_URL = BACKEND_URI+"fuelstation/users/"+ownerID;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, GET_ALL_URL, null, new Response.Listener<JSONArray>() {
@@ -85,6 +99,11 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
             public void onResponse(JSONArray response) {
                 circularProgressIndicator.hide();
                 stationRV.setVisibility(View.VISIBLE);
+
+                if(response.length() == 0){
+                    notFound.setVisibility(View.VISIBLE);
+                }
+
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject responseObj = response.getJSONObject(i);
@@ -147,9 +166,18 @@ public class OwnerHomeActivity extends AppCompatActivity implements NavigationVi
             case R.id.owner_nav_add_fuel:
                 Intent intent2 = new Intent(OwnerHomeActivity.this, OwnerAddFuel.class);
                 startActivity(intent2);
-//                finish();
                 break;
+
             case R.id.owner_nav_logout:
+                SharedPreferences sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.clear().commit();
+
+                Toast.makeText(OwnerHomeActivity.this,"Log Out Successful", Toast.LENGTH_LONG).show();
+
+                Intent intentLogout = new Intent(OwnerHomeActivity.this, UserLoginActivity.class);
+                startActivity(intentLogout);
+                finish();
                 break;
         }
 

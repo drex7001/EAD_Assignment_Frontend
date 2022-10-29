@@ -146,7 +146,7 @@
                     android:textColor="#FFFFFF" />
 
                 <TextView
-                    android:id="@+id/register_here"
+                    android:id="@+id/register_here_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

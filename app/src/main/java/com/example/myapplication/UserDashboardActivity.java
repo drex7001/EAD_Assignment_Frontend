@@ -1,7 +1,13 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.models.Utils.BACKEND_URI;
+import static com.example.myapplication.models.Utils.EMAIL_KEY;
+import static com.example.myapplication.models.Utils.PASSWORD_KEY;
+import static com.example.myapplication.models.Utils.ROLE_KEY;
 import static com.example.myapplication.models.Utils.SHARED_PREFS;
+import static com.example.myapplication.models.Utils.USER_ID_KEY;
 import static com.example.myapplication.models.Utils.USER_NAME_KEY;
+import static com.example.myapplication.models.Utils.USER_QUEUE_ID;
 import static com.example.myapplication.models.Utils.USER_QUEUE_STATUS;
 
 import androidx.annotation.NonNull;
@@ -22,7 +28,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -33,6 +50,9 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
 
     DrawerLayout userDrawerLayout;
     NavigationView userNavigationView;
+
+    String UserInQID, userID;
+    boolean userIsINQ = false;
 
     TextView userNameView, userQJoinBtnView;
     LinearLayout linearLayoutJoinQ;
@@ -50,6 +70,54 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
         userNameView = (TextView) findViewById(R.id.textView1);
         userQJoinBtnView = (TextView) findViewById(R.id.qJoinView);
 
+        //get user data
+        userID = sharedpreferences.getString(USER_ID_KEY, null);
+        userInQData();
+
+    }
+
+    //get user in q data
+    private void userInQData() {
+        NukeSSLCerts.nuke(); //trust certificates
+        String GET_ALL_URL = BACKEND_URI + "fuelqueueuser/user/q_status/" + userID;
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, GET_ALL_URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject responseObj) {
+                try {
+                    boolean userQStatus = responseObj.getBoolean("inQ");
+
+                    if (userQStatus) {
+                        userIsINQ = userQStatus;
+                        String userInQueueID = responseObj.getString("id");
+                        UserInQID = userInQueueID;
+
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(USER_QUEUE_ID, UserInQID);
+                        editor.putString(USER_QUEUE_STATUS, "joined");
+                        editor.apply();
+                    }
+
+                    continueBuilUserLayout();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(UserDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(UserDashboardActivity.this, "Fail to get user Q data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void continueBuilUserLayout() {
         //nav and toolbar
         userDrawerLayout = findViewById(R.id.user_home);
         userNavigationView = findViewById(R.id.user_nav_bar);
@@ -75,6 +143,7 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
         //Setup dashboard body
         linearLayoutJoinQ = findViewById(R.id.join_queue);
         linerLayoutViewVehicles = findViewById(R.id.user_vehicles);
+
         String userName = sharedpreferences.getString(USER_NAME_KEY, null);
         userNameView.setText("Hi, " + userName);
 

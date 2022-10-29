@@ -127,6 +127,13 @@ public class Queue extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(Queue.this, UserDashboardActivity.class);
+        startActivity(intent);
+    }
+
     private void getFuelQData() {
         NukeSSLCerts.nuke(); //trust certificates
         String GET_FUELQ_DATA = BACKEND_URI + "fuelqueueuser/" + userQID;

@@ -90,7 +90,10 @@ public class OwnerViewFuelDataHistory extends AppCompatActivity {
                         String fuelName = responseObj.getString("name");
                         String fuelType = responseObj.getString("type");
                         String fuelArrivalTime = getDateTime(responseObj.getString("arrivalTime"));
-                        String fuelFinishedTime = getDateTime(responseObj.getString("finishTime"));
+                        String fuelFinishedTime = "";
+                        if(responseObj.getString("finishTime").equals(JSONObject.NULL)){
+                            fuelFinishedTime = getDateTime(responseObj.getString("finishTime"));
+                        }
                         String fuelAmount = responseObj.getString("amount");
                         JSONArray userVCountArr = resObj.getJSONArray("vehicleCountList");
                         String vehicleString = "";

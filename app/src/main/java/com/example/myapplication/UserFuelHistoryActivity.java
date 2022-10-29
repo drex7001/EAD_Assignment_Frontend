@@ -99,7 +99,12 @@ public class UserFuelHistoryActivity extends AppCompatActivity {
                         String vehicleCategory = responseObjVehicle.getString("category");
 
                         String arrivalTime = getDateTime(responseObjQueueUser.getString("arrivalTime"));
-                        String finishedTime = getDateTime(responseObjQueueUser.getString("departTime"));
+
+                        String finishedTime = "";
+                        if(responseObjQueueUser.getString("departTime").equals(JSONObject.NULL)){
+                            finishedTime = getDateTime(responseObjQueueUser.getString("departTime"));
+                        }
+
                         String fuelAmount = responseObjQueueUser.getString("amount");
                         String fuelStatus = responseObjQueueUser.getString("status");
 
@@ -131,11 +136,14 @@ public class UserFuelHistoryActivity extends AppCompatActivity {
     }
 
     public String getDateTime(String datetimeUTC){
-        String[] parts = datetimeUTC.split("T");
-        String timeRem = parts[1].toString();
-        String[] parts2 = timeRem.split("\\.");
-        String time = parts2[0];
-        String datetime = parts[0] +":"+ time;
+        String datetime = "";
+        if(datetimeUTC != null){
+            String[] parts = datetimeUTC.split("T");
+            String timeRem = parts[1].toString();
+            String[] parts2 = timeRem.split("\\.");
+            String time = parts2[0];
+            datetime = parts[0] +":"+ time;
+        }
         return datetime;
     }
 

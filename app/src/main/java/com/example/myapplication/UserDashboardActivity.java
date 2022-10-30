@@ -12,6 +12,7 @@ import static com.example.myapplication.models.Utils.USER_QUEUE_STATUS;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -19,12 +20,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +60,10 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
     TextView userNameView, userQJoinBtnView;
     LinearLayout linearLayoutJoinQ;
     LinearLayout linerLayoutViewVehicles;
+    LinearLayout allViewLayout;
     Toolbar toolbar;
+
+    ProgressBar progressBar;
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
@@ -69,8 +75,11 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         userNameView = (TextView) findViewById(R.id.textView1);
         userQJoinBtnView = (TextView) findViewById(R.id.qJoinView);
+        allViewLayout = findViewById(R.id.activity_dashboard);
+        progressBar = findViewById(R.id.progress_loading);
 
         //get user data
+        allViewLayout.setVisibility(View.INVISIBLE);
         userID = sharedpreferences.getString(USER_ID_KEY, null);
         userInQData();
 
@@ -99,7 +108,7 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
                         editor.apply();
                     }
 
-                    continueBuilUserLayout();
+                    continueBuildUserLayout();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -111,13 +120,14 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Toast.makeText(UserDashboardActivity.this, "Fail to get user Q data", Toast.LENGTH_SHORT).show();
+                dialogBox("Error!", "No Connection! Pleas try again later.");
             }
         });
 
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void continueBuilUserLayout() {
+    private void continueBuildUserLayout() {
         //nav and toolbar
         userDrawerLayout = findViewById(R.id.user_home);
         userNavigationView = findViewById(R.id.user_nav_bar);
@@ -157,6 +167,10 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
             userQJoinBtnView.setText("Join Queue");
             intent = new Intent(UserDashboardActivity.this, ShedList.class);
         }
+
+        //set visibility
+        allViewLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
 
         linearLayoutJoinQ.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,6 +222,22 @@ public class UserDashboardActivity extends AppCompatActivity implements Navigati
         userDrawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    public void dialogBox(String type, String message) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(type);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }
